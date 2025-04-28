@@ -1,0 +1,62 @@
+1. What assumptions does linear regression make?
+Linear Regression assumes:
+Linearity: The relationship between independent and dependent variables is linear.
+Independence: Observations are independent of each other.
+Homoscedasticity: Constant variance of errors (no patterns in residuals).
+Normality of Errors: Residuals (errors) are normally distributed.
+No Multicollinearity: Independent variables are not too highly correlated.
+
+2. How do you interpret the coefficients?
+Each coefficient represents the change in the target variable for a one-unit increase in the corresponding feature, holding other features constant.
+Example: If the coefficient for area = 500, then for every 1 sq.ft increase in area, price increases by ₹500 (assuming all other factors are unchanged).
+
+3. What is R² score and its significance?
+R² (coefficient of determination) measures how much of the variance in the target variable is explained by the features.
+Ranges from 0 to 1:
+0 → model explains none of the variance.
+1 → model explains all the variance (perfect fit).
+Higher R² generally means better model fit, but it doesn't guarantee that the model is correct!
+
+4. When would you prefer MSE over MAE?
+Prefer MSE when you want to penalize larger errors more strongly (since errors are squared).
+MSE is sensitive to outliers — large errors will dominate MSE.
+Use MAE when you care equally about all errors, and you want a robust metric.
+
+In short:
+If large errors are bad → prefer MSE.
+If fair treatment of all errors is okay → prefer MAE.
+
+5. How do you detect multicollinearity?
+Correlation Matrix: Check if features are highly correlated (> 0.8 or < -0.8).
+Variance Inflation Factor (VIF):
+VIF > 5 or 10 indicates high multicollinearity.
+
+Example to compute VIF:
+from statsmodels.stats.outliers_influence import variance_inflation_factor
+
+vif_data = pd.DataFrame()
+vif_data['feature'] = X.columns
+vif_data['VIF'] = [variance_inflation_factor(X.values, i) for i in range(X.shape[1])]
+print(vif_data)
+
+6. What is the difference between simple and multiple regression?
+
+  Simple Linear Regression	                                Multiple Linear Regression
+Only one independent variable	                          Two or more independent variables
+Model: y = b0 + b1*x	                                  Model: y = b0 + b1*x1 + b2*x2 + ... + bn*xn
+Easier to visualize (2D graph)	                        Harder to visualize (multidimensional)
+
+7. Can linear regression be used for classification?
+No, Linear Regression is designed for continuous output, not for classes.
+However, Logistic Regression (despite the name) is used for classification.
+Logistic Regression predicts probabilities that are mapped to classes (0/1).
+
+8. What happens if you violate regression assumptions?
+Linearity Violation ➔ model gives biased results.
+Independence Violation ➔ residuals are correlated, making predictions unreliable.
+Homoscedasticity Violation ➔ inefficient estimates, biased standard errors.
+Normality Violation ➔ confidence intervals and p-values become invalid.
+Multicollinearity ➔ coefficients become unstable, model becomes unreliable.
+
+               ***
+In short: Violating assumptions leads to poor, biased, or misleading model performance.
